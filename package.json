@@ -1,8 +1,9 @@
 {
   "name": "json-value-highlighter",
-  "displayName": "json-value-highlighter",
-  "description": "Automatically mark the ref palette variable in jimu-theme. You can customize the json value to be marked by modifying jsonHighlighter.pattern.",
+  "displayName": "JSON highlighter",
+  "description": "Automatically mark the ref palette variable and classic theme variable in jimu-theme. You can customize the json value to be marked by modifying jsonHighlighter.patterns.",
   "version": "0.0.1",
+  "icon": "icon.png",
   "engines": {
     "vscode": "^1.101.0"
   },
@@ -23,18 +24,39 @@
       }
     ],
     "configuration": {
-      "type": "object",
-      "title": "JSON Value Highlighter",
+      "title": "JSON Highlighter",
       "properties": {
-        "jsonHighlighter.pattern": {
-          "type": "string",
-          "default": ":\\s*\\\"(var\\(--ref-palette-(primary|secondary|neutral|error|warning|info|success)-(100|200|300|400|500|600|700|800|900|1000|1100|1200|1300)\\)\\\")",
-          "description": "Regular expression used to match specific string values in JSON files. Must include one capture group."
-        },
-        "jsonHighlighter.message": {
-          "type": "string",
-          "default": "Theme `--ref-palette` css vars should not be used, please use the `--sys-color` css vars instead.",
-          "description": "Message shown when a matching value is found."
+        "jsonHighlighter.patterns": {
+          "type": "array",
+          "description": "Array of regex pattern rules to match JSON values and show custom hover messages.",
+          "default": [
+            {
+              "pattern": ":\\s*\"(var\\(--\\b(primary|secondary|danger|warning|info|success|white|black|light|dark|transparent)(?:-(100|200|300|400|500|600|700|800|900))?\\))\"",
+              "message": "'Classic theme css variables should not be used, please use the `--sys-color` css vars instead.'"
+            },
+            {
+              "pattern": ":\\s*\"(var\\(--ref-palette-(primary|secondary|neutral|error|warning|info|success)-(100|200|300|400|500|600|700|800|900|1000|1100|1200|1300)\\))\"",
+              "message": "'Theme `--ref-palette` css vars should not be used, please use the `--sys-color` css vars instead.'"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "description": "Regex pattern to match (must have a capture group for value)",
+                "default": ""
+              },
+              "message": {
+                "type": "string",
+                "description": "Hover message when match occurs",
+                "default": ""
+              }
+            },
+            "required": [
+              "pattern"
+            ]
+          }
         }
       }
     }
@@ -43,7 +65,6 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "package": "vsce package -o dist"
   },

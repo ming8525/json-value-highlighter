@@ -10,8 +10,8 @@ Highlight specific JSON string values using a configurable regex.
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| `jsonHighlighter.pattern` | Regular expression to match JSON values | `{{pattern}}` |
-| `jsonHighlighter.message` | Message to display when a match is found | `{{message}}` |
+| `jsonHighlighter.patterns[<index>].pattern` | Regular expression to match JSON values | `{{pattern}}` |
+| `jsonHighlighter.patterns[<index>].message` | Message to display when a match is found | `{{message}}` |
 
 ## Example Match
 
