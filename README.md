@@ -2,10 +2,6 @@
 
 Highlight specific JSON string values using a configurable regex.
 
-## Version
-
-**Current version:** `{{version}}`
-
 ## Configuration
 
 | Setting | Description | Default |
